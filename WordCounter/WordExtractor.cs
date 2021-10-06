@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -16,18 +15,25 @@ namespace WordCounter {
 
         public string GetNextRawWord() {
             StringBuilder wordBuffer = new StringBuilder();
-            char next;
+            int next;
+            bool wordStarted = false;
 
-            while (char.IsWhiteSpace(next = (char)_fileReader.Read()) && !_fileReader.EndOfStream);
-            if (!char.IsWhiteSpace(next)) wordBuffer.Append(next);
-            
-            while (!char.IsWhiteSpace(next = (char)_fileReader.Read()) && !_fileReader.EndOfStream) {
-                wordBuffer.Append(next);
+            while ((next = _fileReader.Read()) != -1) {
+                if (!char.IsWhiteSpace((char)next) && !wordStarted) {
+                    wordStarted = true;
+                    wordBuffer.Append((char)next);
+                }
+                else if (char.IsWhiteSpace((char)next) && wordStarted) {
+                    break;
+                }
+                else {
+                    wordBuffer.Append((char)next);
+                }
             }
 
-            if (wordBuffer.Length == 0) return null;
+            if (wordBuffer.Length > 0) return wordBuffer.ToString();
 
-            return wordBuffer.ToString();
+            return null;
         }
 
         StreamReader _fileReader;

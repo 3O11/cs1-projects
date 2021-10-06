@@ -18,6 +18,7 @@ namespace WordCounter {
             WordExtractor words = new WordExtractor(args[0]);
             string word = words.GetNextRawWord();
             while (word != null) {
+                Console.WriteLine(word);
                 counter++;
                 word = words.GetNextRawWord();
             }

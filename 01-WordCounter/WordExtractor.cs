@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace WordCounter {
+namespace _01_WordCounter {
     class WordExtractor : IDisposable {
         public WordExtractor(string filename) {
             _fileReader = new StreamReader(filename);

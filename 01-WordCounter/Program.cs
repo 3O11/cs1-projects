@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace WordCounter {
+namespace _01_WordCounter {
     class Program {
         static void Main(string[] args) {
             if (args.Length != 1) {

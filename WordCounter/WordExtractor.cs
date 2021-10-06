@@ -15,20 +15,22 @@ namespace WordCounter {
 
         public string GetNextRawWord() {
             StringBuilder wordBuffer = new StringBuilder();
-            int next;
-            bool wordStarted = false;
+            char next;
 
-            while ((next = _fileReader.Read()) != -1) {
-                if (!char.IsWhiteSpace((char)next) && !wordStarted) {
-                    wordStarted = true;
-                    wordBuffer.Append((char)next);
-                }
-                else if (char.IsWhiteSpace((char)next) && wordStarted) {
+            while (_fileReader.Peek() >= 0) {
+                next = (char)_fileReader.Read();
+                if (!char.IsWhiteSpace(next)) {
+                    wordBuffer.Append(next);
                     break;
                 }
-                else {
-                    wordBuffer.Append((char)next);
-                }
+            }
+
+            while (_fileReader.Peek() >= 0) {
+                next = (char)_fileReader.Read();
+
+                if (char.IsWhiteSpace(next)) break;
+
+                wordBuffer.Append(next);
             }
 
             if (wordBuffer.Length > 0) return wordBuffer.ToString();

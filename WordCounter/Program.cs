@@ -14,12 +14,10 @@ namespace WordCounter {
                 return;
             }
 
-            int counter = 0;
             WordExtractor words = new WordExtractor(args[0]);
-            string word = words.GetNextRawWord();
-            while (word != null) {
+            int counter = 0;
+            while (words.GetNextRawWord() != null) {
                 counter++;
-                word = words.GetNextRawWord();
             }
             words.Dispose();
 

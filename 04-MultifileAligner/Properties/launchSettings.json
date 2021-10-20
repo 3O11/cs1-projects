@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "04-MultifileAligner": {
+      "commandName": "Project",
+      "commandLineArgs": "in01.txt in02.txt in03.txt out.txt 40"
+    }
+  }
+}

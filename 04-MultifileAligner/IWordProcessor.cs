@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace _03_BlockAligner {
+namespace _04_BlockAligner {
     interface IWordProcessor {
         // Comsumes the next word and does all the neccesary work.
         void NextWord(string word);

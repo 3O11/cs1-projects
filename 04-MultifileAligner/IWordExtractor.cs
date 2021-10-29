@@ -1,4 +1,4 @@
-﻿namespace _03_BlockAligner {
+﻿namespace _04_BlockAligner {
     interface IWordExtractor {
         // This method returns the next word,
         // which is stripped of any whitespaces.

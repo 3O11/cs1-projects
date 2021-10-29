@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace _03_BlockAligner
+namespace _04_BlockAligner
 {
     class FileBlockAligner : BlockAligner
     {

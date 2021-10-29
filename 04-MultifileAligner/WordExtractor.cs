@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace _03_BlockAligner {
+namespace _04_BlockAligner {
     class WordExtractor : IWordExtractor {
         public WordExtractor(string filename) {
             _fileReader = new StreamReader(filename);

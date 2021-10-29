@@ -2,10 +2,13 @@
 using System.Text;
 using System.IO;
 
-namespace _03_BlockAligner {
+namespace _04_BlockAligner {
     abstract class BlockAligner : IWordProcessor {
         public BlockAligner(int lineLength) {
             _lineLength = lineLength;
+
+            LineEnding = "";
+            Space = ' ';
         }
 
         public void NextWord(string word) {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
 
-namespace _03_BlockAligner {
-    class Program {
-        static void Main(string[] args) {
+namespace _04_BlockAligner {
+    public class Program {
+        public static void Main(string[] args) {
             int lineLength;
             if (args.Length < 3 || !int.TryParse(args[args.Length - 1], out lineLength) || lineLength <= 0) {
                 Console.WriteLine("Argument Error");

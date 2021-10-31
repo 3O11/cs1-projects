@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _05_Nezarka.Net {
-    interface IWriter {
+namespace _05_Nezarka.Net
+{
+    interface IWriter
+    {
     }
 }

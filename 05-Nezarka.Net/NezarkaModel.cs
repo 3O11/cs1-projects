@@ -1,47 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using System.IO;
 
-namespace _05_Nezarka.Net {
+namespace _05_Nezarka.Net
+{
 	//
 	// Model
 	//
 
-	class ModelStore {
+	class ModelStore
+	{
 		private List<Book> books = new List<Book>();
 		private List<Customer> customers = new List<Customer>();
 
-		public IList<Book> GetBooks() {
+		public IList<Book> GetBooks()
+		{
 			return books;
 		}
 
-		public Book GetBook(int id) {
+		public Book GetBook(int id)
+		{
 			return books.Find(b => b.Id == id);
 		}
 
-		public Customer GetCustomer(int id) {
+		public Customer GetCustomer(int id)
+		{
 			return customers.Find(c => c.Id == id);
 		}
 
-		public static ModelStore LoadFrom(TextReader reader) {
+		public static ModelStore LoadFrom(TextReader reader)
+		{
 			var store = new ModelStore();
 
-			try {
-				if (reader.ReadLine() != "DATA-BEGIN") {
+			try
+			{
+				if (reader.ReadLine() != "DATA-BEGIN")
+				{
 					return null;
 				}
-				while (true) {
+				while (true)
+				{
 					string line = reader.ReadLine();
-					if (line == null) {
+					if (line == null)
+					{
 						return null;
-					} else if (line == "DATA-END") {
+					} else if (line == "DATA-END")
+					{
 						break;
 					}
 
 					string[] tokens = line.Split(';');
-					switch (tokens[0]) {
+					switch (tokens[0])
+					{
 						case "BOOK":
 							store.books.Add(new Book {
 								Id = int.Parse(tokens[1]), Title = tokens[2], Author = tokens[3], Price = decimal.Parse(tokens[4])
@@ -65,8 +76,10 @@ namespace _05_Nezarka.Net {
 							return null;
 					}
 				}
-			} catch (Exception ex) {
-				if (ex is FormatException || ex is IndexOutOfRangeException) {
+			} catch (Exception ex)
+			{
+				if (ex is FormatException || ex is IndexOutOfRangeException)
+				{
 					return null;
 				}
 				throw;
@@ -76,14 +89,16 @@ namespace _05_Nezarka.Net {
 		}
 	}
 
-	class Book {
+	class Book
+	{
 		public int Id { get; set; }
 		public string Title { get; set; }
 		public string Author { get; set; }
 		public decimal Price { get; set; }
 	}
 
-	class Customer {
+	class Customer
+	{
 		private ShoppingCart shoppingCart;
 
 		public int Id { get; set; }
@@ -103,12 +118,14 @@ namespace _05_Nezarka.Net {
 		}
 	}
 
-	class ShoppingCartItem {
+	class ShoppingCartItem
+	{
 		public int BookId { get; set; }
 		public int Count { get; set; }
 	}
 
-	class ShoppingCart {
+	class ShoppingCart
+	{
 		public int CustomerId { get; set; }
 		public List<ShoppingCartItem> Items = new List<ShoppingCartItem>();
 	}

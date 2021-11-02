@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 
 namespace _05_Nezarka.Net
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             ModelStore model = ModelStore.LoadFrom(Console.In);

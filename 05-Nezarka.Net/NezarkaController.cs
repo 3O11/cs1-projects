@@ -43,8 +43,7 @@ namespace _05_Nezarka.Net
         // I'm sorry for anyone who ever reads this after me
         IRequest parseRequest(string rawRequest)
         {
-            Regex commRegex = new Regex(@"^GET (?<custID>[0-9]+) (http://www.nezarka.net/)(?<query>[a-zA-Z0-9/]+)$");
-            Match m = commRegex.Match(rawRequest);
+            Match m = _commRegex.Match(rawRequest);
             if (!m.Success) return InvalidRequest.GetInstance;
 
             Customer customer = _model.GetCustomer(int.Parse(m.Groups["custID"].Value));
@@ -92,5 +91,7 @@ namespace _05_Nezarka.Net
         ViewStore _view;
         TextReader _input;
         TextWriter _output;
+
+        static Regex _commRegex = new Regex(@"^GET (?<custID>[0-9]+) (http://www.nezarka.net/)(?<query>[a-zA-Z0-9/]+)$", RegexOptions.Compiled);
     }
 }

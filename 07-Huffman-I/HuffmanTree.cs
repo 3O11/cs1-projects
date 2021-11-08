@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-//
-// This class might seem redundant for now, but it will keep track of
-// encoding (via traversal) in the next assignment.
-//
-
 namespace _07_Huffman_I
 {
     class HuffmanTree
@@ -15,7 +10,7 @@ namespace _07_Huffman_I
             return _treeRoot.ToString();
         }
 
-        public static HuffmanTree Construct(int[] nodeValues)
+        public static HuffmanTree Construct(long[] nodeValues)
         {
             SortedSet<HuffmanNode> nodes = new SortedSet<HuffmanNode>();
 

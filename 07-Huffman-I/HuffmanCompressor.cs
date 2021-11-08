@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace _07_Huffman_I
 {
@@ -6,8 +7,34 @@ namespace _07_Huffman_I
     {
         public HuffmanCompressor(string filename)
         {
-            _filename = filename;
+            _inputFilename = filename;
             _tree = null;
+        }
+
+        public bool Init()
+        {
+            try
+            {
+                _inputFile = new FileStream(_inputFilename, FileMode.Open);
+            }
+            catch
+            {
+                return false;
+            }
+
+            long[] byteCounts = new long[256];
+
+            _inputFile.Seek(0, SeekOrigin.Begin);
+            long length = _inputFile.Length;
+            long pos = 0;
+            while (pos < length)
+            {
+                ++byteCounts[_inputFile.ReadByte()];
+                ++pos;
+            }
+
+            _tree = HuffmanTree.Construct(byteCounts);
+            return true;
         }
 
         // This will be useful later
@@ -16,22 +43,10 @@ namespace _07_Huffman_I
 
         }
 
-        public void CreateTree()
+        public void CleanUp()
         {
-            int[] byteCounts = new int[256];
-
-            using (var file = new FileStream(_filename, FileMode.Open))
-            {
-                long length = file.Length;
-                long pos = 0;
-                while (pos < length)
-                {
-                    ++byteCounts[file.ReadByte()];
-                    ++pos;
-                }
-            }
-
-            _tree = HuffmanTree.Construct(byteCounts);
+            _inputFile.Close();
+            _inputFile.Dispose();
         }
 
         public HuffmanTree Tree
@@ -42,7 +57,9 @@ namespace _07_Huffman_I
             }
         }
 
-        string _filename;
+        string _inputFilename;
+        FileStream _inputFile;
+        
         HuffmanTree _tree;
     }
 }

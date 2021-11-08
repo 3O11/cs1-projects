@@ -1,10 +1,7 @@
 ﻿using System;
 using System.IO;
 
-//
-// From my previous attempts it's painfully obvious that I haven't learned
-// anything from the Bug Finding Tale ...
-//
+// Sneaky pre-deadline fix
 
 namespace _07_Huffman_I
 {
@@ -18,15 +15,18 @@ namespace _07_Huffman_I
                 return;
             }
 
-            if (!File.Exists(args[0]))
+            HuffmanCompressor compressor = new HuffmanCompressor(args[0]);
+
+            if (!compressor.Init())
             {
                 Console.WriteLine("File Error");
                 return;
             }
 
-            HuffmanCompressor compressor = new HuffmanCompressor(args[0]);
-            compressor.CreateTree();
             Console.WriteLine(compressor.Tree);
+
+            //compressor.Compress();
+            compressor.CleanUp();
         }
     }
 }

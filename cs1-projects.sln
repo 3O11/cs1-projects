@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "05-Nezarka.Net", "05-Nezark
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "06-BugFinding", "05.1-BugFinding\06-BugFinding.csproj", "{22649ED8-C43D-47B3-B3EF-8AAD1C81E437}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07-Huffman-I", "07-Huffman-I\07-Huffman-I.csproj", "{E02C0197-0CE9-4589-91C2-7861CE7ED49B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "07-Huffman-I", "07-Huffman-I\07-Huffman-I.csproj", "{E02C0197-0CE9-4589-91C2-7861CE7ED49B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08-Huffman-II", "08-Huffman-II\08-Huffman-II.csproj", "{6FC6D360-2A20-4149-80D2-43AF4F80A389}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{E02C0197-0CE9-4589-91C2-7861CE7ED49B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E02C0197-0CE9-4589-91C2-7861CE7ED49B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E02C0197-0CE9-4589-91C2-7861CE7ED49B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FC6D360-2A20-4149-80D2-43AF4F80A389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FC6D360-2A20-4149-80D2-43AF4F80A389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FC6D360-2A20-4149-80D2-43AF4F80A389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FC6D360-2A20-4149-80D2-43AF4F80A389}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

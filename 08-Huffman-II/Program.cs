@@ -3,7 +3,7 @@ using System.IO;
 
 // Sneaky pre-deadline fix
 
-namespace _07_Huffman_I
+namespace _08_Huffman_II
 {
     class Program
     {
@@ -14,19 +14,18 @@ namespace _07_Huffman_I
                 Console.WriteLine("Argument Error");
                 return;
             }
-
-            HuffmanCompressor compressor = new HuffmanCompressor(args[0]);
-
-            if (!compressor.Init())
+            FileStream input;
+            try
+            {
+                input = new FileStream(args[0], FileMode.Open);
+            }
+            catch
             {
                 Console.WriteLine("File Error");
                 return;
             }
 
-            Console.WriteLine(compressor.Tree);
-
-            //compressor.Compress();
-            compressor.CleanUp();
+            Console.WriteLine(Huffman.CreateTree(input));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace _07_Huffman_I
+namespace _08_Huffman_II
 {
     class HuffmanTree
     {
@@ -10,7 +10,7 @@ namespace _07_Huffman_I
             return _treeRoot.ToString();
         }
 
-        public static HuffmanTree Construct(long[] nodeValues)
+        public static HuffmanTree Create(long[] nodeValues)
         {
             SortedSet<HuffmanNode> nodes = new SortedSet<HuffmanNode>();
 

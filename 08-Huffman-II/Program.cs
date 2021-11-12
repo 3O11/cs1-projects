@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-// Sneaky pre-deadline fix
+// This solution isn't good, I'll fix it later if I have time.
 
 namespace _08_Huffman_II
 {
@@ -15,9 +15,11 @@ namespace _08_Huffman_II
                 return;
             }
             FileStream input;
+            FileStream output;
             try
             {
                 input = new FileStream(args[0], FileMode.Open);
+                output = new FileStream(args[0] + ".huff", FileMode.OpenOrCreate);
             }
             catch
             {
@@ -25,7 +27,12 @@ namespace _08_Huffman_II
                 return;
             }
 
-            Console.WriteLine(Huffman.CreateTree(input));
+            Huffman.Encode(input, output);
+
+            input.Close();
+            input.Dispose();
+            output.Close();
+            output.Dispose();
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace _08_Huffman_II
 {
@@ -39,6 +41,21 @@ namespace _08_Huffman_II
         public bool IsLeaf()
         {
             return Left == null && Right == null;
+        }
+
+        // TODO: Move the traversal to HuffmanTree.Encode(), return only the CURRENT node encoded
+        public byte[] Encode()
+        {
+            if (IsLeaf())
+            {
+                long result = 1 | (0x00FFFFFFFFFFFFFE & (Weight << 1)) | (Value << 56);
+                return BitConverter.GetBytes(result);
+            }
+            else
+            {
+                long result = 0x00FFFFFFFFFFFFFE & (Weight << 1);
+                return BitConverter.GetBytes(result);
+            }
         }
 
         public long Weight { get; }

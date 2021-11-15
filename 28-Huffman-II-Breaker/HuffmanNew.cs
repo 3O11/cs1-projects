@@ -7,7 +7,7 @@ namespace _08_Huffman_II
 {
     class Huffman
     {
-        public static void Encode(FileStream input, FileStream output)
+        public static void Encode(Stream input, Stream output)
         {
             HuffmanTree tree = CreateTree(input);
             output.Write(_huffFileHeader);
@@ -54,7 +54,7 @@ namespace _08_Huffman_II
 
         }
 
-        public static HuffmanTree CreateTree(FileStream input)
+        public static HuffmanTree CreateTree(Stream input)
         {
             long[] byteCounts = new long[256];
             byte[] buffer = new byte[4096];

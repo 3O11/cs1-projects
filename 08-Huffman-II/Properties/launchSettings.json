@@ -2,7 +2,7 @@
   "profiles": {
     "08-Huffman-II": {
       "commandName": "Project",
-      "commandLineArgs": "test.txt"
+      "commandLineArgs": "M.txt"
     }
   }
 }

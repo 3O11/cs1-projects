@@ -19,7 +19,7 @@ namespace _08_Huffman_II
             try
             {
                 input = new FileStream(args[0], FileMode.Open);
-                output = new FileStream(args[0] + ".huff", FileMode.OpenOrCreate);
+                output = new FileStream(args[0] + ".huff", FileMode.Create);
             }
             catch
             {

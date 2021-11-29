@@ -8,26 +8,38 @@ namespace _09_Excel
 {
     internal class FormulaCell : ICell
     {
-        public FormulaCell(string formula)
+        public FormulaCell(Tuple<int,int> left, Tuple<int, int> right, char op)
         {
-            _formula = formula;
+            _leftOperand = left;
+            _rightOperand = right;
+            _operator = op;
         }
 
         public object GetBoxedValue()
         {
-            return _formula;
+            return _operator;
         }
 
-        public string GetValue()
+        public Tuple<int, int> GetLeftOperand()
         {
-            return _formula;
+            return _leftOperand;
+        }
+
+        public Tuple<int, int> GetRightOperand()
+        {
+            return _rightOperand;
+        }
+
+        public char GetOperator()
+        {
+            return _operator;
         }
 
         public bool IsValid()
         {
             // This might not necessarily hold, but
             // an invalid formula shouldn't even be
-            // saved as such.
+            // saved as being valid.
             return true;
         }
 
@@ -41,6 +53,8 @@ namespace _09_Excel
             return CellType.Formula;
         }
 
-        string _formula;
+        Tuple<int, int> _leftOperand;
+        Tuple<int, int> _rightOperand;
+        char _operator;
     }
 }

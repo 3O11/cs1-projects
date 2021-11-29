@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _09_Excel
 {
@@ -12,6 +9,16 @@ namespace _09_Excel
         {
             _cells = new Dictionary<Tuple<int, int>, ICell>();
             _rowLengths = new List<int>();
+        }
+
+        public ICell GetRawCell(Tuple<int, int> cellIndex)
+        {
+            if (_cells.ContainsKey(cellIndex))
+            {
+                return _cells[cellIndex];
+            }
+
+            return null;
         }
 
         public ICell GetCell(Tuple<int, int> cellIndex)
@@ -24,21 +31,6 @@ namespace _09_Excel
             return _emptyCell;
         }
 
-        public ICell GetCell(string cellIndex)
-        {
-            var parsedIndex = CellUtils.ParseIndex(cellIndex);
-
-            // This should never happen, but I'm checking so that it
-            // crashes when trying to access later instead of doing
-            // weird things.
-            if (parsedIndex == null)
-            {
-                return null;
-            }
-
-            return GetCell(parsedIndex);
-        }
-
         public void SetCell(Tuple<int, int> cellIndex, ICell cell)
         {
             // This should never happen, checking this should be the caller's
@@ -48,12 +40,13 @@ namespace _09_Excel
             //    return;
             //}
 
-            _cells[cellIndex] = cell;
-        }
+            if (cell == null)
+            {
+                _cells.Remove(cellIndex);
+                return;
+            }
 
-        public void SetCell(string cellIndex, ICell cell)
-        {
-            SetCell(CellUtils.ParseIndex(cellIndex), cell);
+            _cells[cellIndex] = cell;
         }
 
         public void SetRowLength(int row, int length)

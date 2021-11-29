@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace _09_Excel
@@ -39,7 +36,7 @@ namespace _09_Excel
                 int rowLength = sheet.GetRowLength(i);
                 for (int j = 1; j <= rowLength; j++)
                 {
-                    ICell cell = sheet.GetCell(new Tuple<int, int>(j, i));
+                    ICell cell = sheet.GetRawCell(new Tuple<int, int>(j, i));
                     if (cell == null) output.Write("[]");
                     else output.Write(cell.GetBoxedValue());
 
@@ -51,8 +48,8 @@ namespace _09_Excel
 
         public static void Evaluate(Sheet sheet)
         {
-            var evalStack = new Stack<FormulaCell>();
             var visited = new HashSet<Tuple<int, int>>();
+            Stack<Tuple<int, int>> evalStack = new Stack<Tuple<int, int>>();
 
             int rowCount = sheet.GetRowCount();
             for (int i = 1; i <= rowCount; i++)
@@ -61,10 +58,9 @@ namespace _09_Excel
                 for (int j = 1; j <= rowLength; j++)
                 {
                     var index = new Tuple<int, int>(j, i);
-                    var cell = sheet.GetCell(index);
-                    if (cell.GetType() == CellType.Formula)
+                    if (sheet.GetCell(index).GetType() == CellType.Formula)
                     {
-                        // TODO: Finish traversal
+                        evalCell(index, sheet, visited, evalStack);
                     }
                 }
             }
@@ -75,6 +71,88 @@ namespace _09_Excel
             Sheet sheet = Load(input);
             Evaluate(sheet);
             Save(output, sheet);
+        }
+
+        static void evalCell(Tuple<int, int> index, Sheet sheet, HashSet<Tuple<int, int>> visited, Stack<Tuple<int, int>> evalStack)
+        {
+            evalStack.Push(index);
+            while (evalStack.Count > 0)
+            {
+                var evalIndex = evalStack.Pop();
+                visited.Add(evalIndex);
+                ICell evalCell = sheet.GetCell(evalIndex);
+                if (evalCell.GetType() != CellType.Formula) continue;
+
+                var leftIndex = ((FormulaCell)evalCell).GetLeftOperand();
+                ICell leftCell = sheet.GetCell(leftIndex);
+                int leftValue = 0;
+                var rightIndex = ((FormulaCell)evalCell).GetRightOperand();
+                ICell rightCell = sheet.GetCell(rightIndex);
+                int rightValue = 0;
+
+                switch (rightCell.GetType())
+                {
+                    case CellType.Formula:
+                        evalStack.Push(evalIndex);
+                        evalStack.Push(rightIndex);
+                        if (visited.Contains(rightIndex)) goto Cycle;
+                        continue;
+                    case CellType.Error:
+                        sheet.SetCell(evalIndex, CellUtils.GetErrorCell());
+                        continue;
+                    case CellType.Int:
+                        rightValue = ((IntCell)rightCell).GetValue();
+                        break;
+                    default:
+                        sheet.SetCell(evalIndex, new ErrorCell("#HOW_DID_WE_GET_HERE?"));
+                        break;
+                }
+
+                switch (leftCell.GetType())
+                {
+                    case CellType.Formula:
+                        evalStack.Push(evalIndex);
+                        evalStack.Push(leftIndex);
+                        if (visited.Contains(leftIndex)) goto Cycle;
+                        continue;
+                    case CellType.Error:
+                        sheet.SetCell(evalIndex, CellUtils.GetErrorCell());
+                        continue;
+                    case CellType.Int:
+                        leftValue = ((IntCell)leftCell).GetValue();
+                        break;
+                    default:
+                        sheet.SetCell(evalIndex, new ErrorCell("#HOW_DID_WE_GET_HERE?"));
+                        break;
+                }
+
+                switch (((FormulaCell)evalCell).GetOperator())
+                {
+                    case '+':
+                        sheet.SetCell(evalIndex, new IntCell(leftValue + rightValue));
+                        continue;
+                    case '-':
+                        sheet.SetCell(evalIndex, new IntCell(leftValue - rightValue));
+                        continue;
+                    case '*':
+                        sheet.SetCell(evalIndex, new IntCell(leftValue * rightValue));
+                        continue;
+                    case '/':
+                        if (rightValue == 0) sheet.SetCell(evalIndex, CellUtils.GetDiv0ErrorCell());
+                        else sheet.SetCell(evalIndex, new IntCell(leftValue / rightValue));
+                        continue;
+                    default:
+                        sheet.SetCell(evalIndex, new ErrorCell("#HOW_DID_WE_GET_HERE?"));
+                        break;
+                }
+            }
+
+            Cycle:
+            while (evalStack.Count > 0)
+            {
+                var cycleIndex = evalStack.Pop();
+                sheet.SetCell(cycleIndex, CellUtils.GetCycleErrorCell());
+            }
         }
     }
 }

@@ -130,25 +130,7 @@ namespace _09_Excel
                         break;
                 }
 
-                switch (((FormulaCell)evalCell).GetOperator())
-                {
-                    case '+':
-                        sheet.SetCell(evalIndex, new IntCell(leftValue + rightValue));
-                        continue;
-                    case '-':
-                        sheet.SetCell(evalIndex, new IntCell(leftValue - rightValue));
-                        continue;
-                    case '*':
-                        sheet.SetCell(evalIndex, new IntCell(leftValue * rightValue));
-                        continue;
-                    case '/':
-                        if (rightValue == 0) sheet.SetCell(evalIndex, CellUtils.GetDiv0ErrorCell());
-                        else sheet.SetCell(evalIndex, new IntCell(leftValue / rightValue));
-                        continue;
-                    default:
-                        sheet.SetCell(evalIndex, new ErrorCell("#HOW_DID_WE_GET_HERE?"));
-                        break;
-                }
+                updateSheet(sheet, evalIndex, leftValue, rightValue, ((FormulaCell)evalCell).GetOperator());
             }
 
             Cycle:
@@ -156,6 +138,29 @@ namespace _09_Excel
             {
                 var cycleIndex = evalStack.Pop();
                 sheet.SetCell(cycleIndex, CellUtils.GetCycleErrorCell());
+            }
+        }
+
+        static void updateSheet(Sheet sheet, long index, int left, int right, char op)
+        {
+            switch (op)
+            {
+                case '+':
+                    sheet.SetCell(index, new IntCell(left + right));
+                    break;
+                case '-':
+                    sheet.SetCell(index, new IntCell(left - right));
+                    break;
+                case '*':
+                    sheet.SetCell(index, new IntCell(left * right));
+                    break;
+                case '/':
+                    if (right == 0) sheet.SetCell(index, CellUtils.GetDiv0ErrorCell());
+                    else sheet.SetCell(index, new IntCell(left / right));
+                    break;
+                default:
+                    sheet.SetCell(index, new ErrorCell("#HOW_DID_WE_GET_HERE?"));
+                    break;
             }
         }
     }

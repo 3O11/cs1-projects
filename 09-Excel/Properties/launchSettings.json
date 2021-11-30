@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "09-Excel": {
+      "commandName": "Project",
+      "commandLineArgs": "superbig.sheet superbig.eval"
+    }
+  }
+}

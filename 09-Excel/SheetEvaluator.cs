@@ -19,7 +19,7 @@ namespace _09_Excel
                 int colNum = 1;
                 while(colNum - 1 < cells.Length)
                 {
-                    sheet.SetCell(new Tuple<int, int>(colNum, rowNum), CellUtils.ParseCell(cells[colNum - 1]));
+                    sheet.SetCell(CellUtils.CreateCoord(colNum, rowNum), CellUtils.ParseCell(cells[colNum - 1]));
                     ++colNum;
                 }
                 ++rowNum;
@@ -36,7 +36,7 @@ namespace _09_Excel
                 int rowLength = sheet.GetRowLength(i);
                 for (int j = 1; j <= rowLength; j++)
                 {
-                    ICell cell = sheet.GetRawCell(new Tuple<int, int>(j, i));
+                    ICell cell = sheet.GetRawCell(CellUtils.CreateCoord(j, i));
                     if (cell == null) output.Write("[]");
                     else output.Write(cell.GetBoxedValue());
 
@@ -48,8 +48,8 @@ namespace _09_Excel
 
         public static void Evaluate(Sheet sheet)
         {
-            var visited = new HashSet<Tuple<int, int>>();
-            Stack<Tuple<int, int>> evalStack = new Stack<Tuple<int, int>>();
+            var visited = new HashSet<long>();
+            Stack<long> evalStack = new Stack<long>();
 
             int rowCount = sheet.GetRowCount();
             for (int i = 1; i <= rowCount; i++)
@@ -57,7 +57,7 @@ namespace _09_Excel
                 int rowLength = sheet.GetRowLength(i);
                 for (int j = 1; j <= rowLength; j++)
                 {
-                    var index = new Tuple<int, int>(j, i);
+                    long index = CellUtils.CreateCoord(j, i);
                     if (sheet.GetCell(index).GetType() == CellType.Formula)
                     {
                         evalCell(index, sheet, visited, evalStack);
@@ -73,7 +73,10 @@ namespace _09_Excel
             Save(output, sheet);
         }
 
-        static void evalCell(Tuple<int, int> index, Sheet sheet, HashSet<Tuple<int, int>> visited, Stack<Tuple<int, int>> evalStack)
+        // Yes, I'm aware that GOTO isn't a very nice thing to use, especially in C#,
+        // but I wanted to be able to jump out of a loop from a switch statement
+        // without having to have a separate bool and additional checks for each loop iteration.
+        static void evalCell(long index, Sheet sheet, HashSet<long> visited, Stack<long> evalStack)
         {
             evalStack.Push(index);
             while (evalStack.Count > 0)
@@ -83,9 +86,6 @@ namespace _09_Excel
                 ICell evalCell = sheet.GetCell(evalIndex);
                 if (evalCell.GetType() != CellType.Formula) continue;
 
-                var leftIndex = ((FormulaCell)evalCell).GetLeftOperand();
-                ICell leftCell = sheet.GetCell(leftIndex);
-                int leftValue = 0;
                 var rightIndex = ((FormulaCell)evalCell).GetRightOperand();
                 ICell rightCell = sheet.GetCell(rightIndex);
                 int rightValue = 0;
@@ -107,6 +107,10 @@ namespace _09_Excel
                         sheet.SetCell(evalIndex, new ErrorCell("#HOW_DID_WE_GET_HERE?"));
                         break;
                 }
+
+                var leftIndex = ((FormulaCell)evalCell).GetLeftOperand();
+                ICell leftCell = sheet.GetCell(leftIndex);
+                int leftValue = 0;
 
                 switch (leftCell.GetType())
                 {

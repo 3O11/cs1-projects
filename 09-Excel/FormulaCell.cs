@@ -4,7 +4,7 @@ namespace _09_Excel
 {
     internal class FormulaCell : ICell
     {
-        public FormulaCell(Tuple<int,int> left, Tuple<int, int> right, char op)
+        public FormulaCell(long left, long right, char op)
         {
             _leftOperand = left;
             _rightOperand = right;
@@ -16,12 +16,12 @@ namespace _09_Excel
             return _operator;
         }
 
-        public Tuple<int, int> GetLeftOperand()
+        public long GetLeftOperand()
         {
             return _leftOperand;
         }
 
-        public Tuple<int, int> GetRightOperand()
+        public long GetRightOperand()
         {
             return _rightOperand;
         }
@@ -49,8 +49,8 @@ namespace _09_Excel
             return CellType.Formula;
         }
 
-        Tuple<int, int> _leftOperand;
-        Tuple<int, int> _rightOperand;
+        long _leftOperand;
+        long _rightOperand;
         char _operator;
     }
 }

@@ -37,18 +37,14 @@ namespace _09_Excel
 
         public static ICell ParseFormulaCell(string formula)
         {
-            Match m = _formulaRegex.Match(formula);
-            if (!m.Success)
-            {
-                return GetMissopErrorCell();
-            }
-            else
-            {
-                var left = ParseIndex(m.Groups["left"].Value);
-                var right = ParseIndex(m.Groups["right"].Value);
-                if (left == null || right == null) return GetFormulaErrorCell();
-                else return new FormulaCell(left, right, m.Groups["op"].Value[0]);
-            }
+            string[] operands = formula.Substring(1).Split(new char[] {'+', '-', '*', '/'});
+            if (operands.Length < 2) return GetMissopErrorCell();
+            if (operands.Length > 2) return GetFormulaErrorCell();
+
+            long left = ParseIndex(operands[0]);
+            long right = ParseIndex(operands[1]);
+            if (left == -1 || right == -1) return GetFormulaErrorCell();
+            else return new FormulaCell(left, right, formula[operands[0].Length + 1]);
         }
 
         public static ICell ParseCell(string cellValue)
@@ -62,16 +58,16 @@ namespace _09_Excel
             return GetInvvalErrorCell();
         }
 
-        public static Tuple<int, int> ParseIndex(string cellIndex)
+        public static long ParseIndex(string cellIndex)
         {
             Match m = _indexRegex.Match(cellIndex);
             if (!m.Success)
             {
-                return null;
+                return -1;
             }
             else
             {
-                return new Tuple<int, int>(parseCol(m.Groups["col"].Value), int.Parse(m.Groups["row"].Value));
+                return CreateCoord(parseCol(m.Groups["col"].Value), int.Parse(m.Groups["row"].Value));
             }
         }
 
@@ -87,8 +83,12 @@ namespace _09_Excel
             return colNum;
         }
 
-        static Regex _indexRegex = new Regex(@"^(?<col>[A-Z]+)(?<row>[0-9])$", RegexOptions.Compiled);
-        static Regex _formulaRegex = new Regex(@"^=(?<left>\w+)(?<op>[+\-*/])(?<right>\w+)$", RegexOptions.Compiled);
+        public static long CreateCoord(int col, int row)
+        {
+            return ((long)col << 32) | (long)row;
+        }
+
+        static readonly Regex _indexRegex = new Regex(@"^(?<col>[A-Z]+)(?<row>[0-9]+)$");
 
         static ICell _cycleError = new ErrorCell("#CYCLE");
         static ICell _div0Error = new ErrorCell("#DIV0");

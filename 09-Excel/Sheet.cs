@@ -7,11 +7,11 @@ namespace _09_Excel
     {
         public Sheet()
         {
-            _cells = new Dictionary<Tuple<int, int>, ICell>();
+            _cells = new Dictionary<long, ICell>();
             _rowLengths = new List<int>();
         }
 
-        public ICell GetRawCell(Tuple<int, int> cellIndex)
+        public ICell GetRawCell(long cellIndex)
         {
             if (_cells.ContainsKey(cellIndex))
             {
@@ -21,7 +21,7 @@ namespace _09_Excel
             return null;
         }
 
-        public ICell GetCell(Tuple<int, int> cellIndex)
+        public ICell GetCell(long cellIndex)
         {
             if (_cells.ContainsKey(cellIndex))
             {
@@ -31,7 +31,7 @@ namespace _09_Excel
             return _emptyCell;
         }
 
-        public void SetCell(Tuple<int, int> cellIndex, ICell cell)
+        public void SetCell(long cellIndex, ICell cell)
         {
             // This should never happen, checking this should be the caller's
             // responsibility.
@@ -68,7 +68,7 @@ namespace _09_Excel
             return _rowLengths.Count;
         }
 
-        Dictionary<Tuple<int, int>, ICell> _cells;
+        Dictionary<long, ICell> _cells;
         List<int> _rowLengths;
         ICell _emptyCell = new IntCell(0);
     }

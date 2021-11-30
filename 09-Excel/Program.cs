@@ -1,4 +1,4 @@
-﻿//0#define RECODEX
+﻿#define RECODEX
 
 using System;
 using System.IO;
@@ -37,21 +37,19 @@ namespace _09_Excel
             output.Dispose();
 #else
             StringReader strr;
-            StringWriter strw = new StringWriter();
+            StringWriter strw; ;
 
-            for (int i = 0; i < 10000; i++)
-            {
-                strr = new StringReader(
-                    "[] 3 =B1*A2\n" +
-                    "19 =C1+C2 42\n" +
-                    "car\n" +
-                    "=B2/A1 =A1-B4 =C2+A4\n" +
-                    "=error =A1+bus\n"
-                );
 
-                SheetEvaluator.Evaluate(strr, strw);
-            }
 
+            strr = new StringReader(
+                "[] 3 =B1*A2\n" +
+                "19 =C1+C2 42\n" +
+                "car\n" +
+                "=B2/A1 =A1-B4 =C2+A4\n" +
+                "=error =A1+bus\n"
+            );
+            strw = new StringWriter();
+            SheetEvaluator.Evaluate(strr, strw);
             Console.WriteLine(strw);
 
             Console.WriteLine("======================");
@@ -60,13 +58,24 @@ namespace _09_Excel
                 "[] = =D4-E1 [] 23\n" +
                 "=A1+E1 [] =A2*B3 [] [] nibba\n" +
                 "=neco+D3 6 [] =G3+E1 [] =C2/A1 =C1+C1\n" +
-                "[] [] [] =D3+E1\n"
+                "[] [] [] =D3+E1\n" +
+                "[] 34 [][] =D4+E1 [] []\n"
             );
-
             strw = new StringWriter();
-
             SheetEvaluator.Evaluate(strr, strw);
+            Console.WriteLine(strw);
 
+            Console.WriteLine("======================");
+
+            strr = new StringReader(
+                "[] = =D4-E1 [] 23\n" +
+                "=A1+E1 [] =A2*B3 [] [] nibba\n" +
+                "=neco+D3 6 [] =G3+E1 [] =C2/A1 =C1+C1\n" +
+                "[] [] [] =D3+E1\n" +
+                "[] 34 [][] =D4+E1 [] []\n"
+            );
+            strw = new StringWriter();
+            SheetEvaluator.Evaluate(strr, strw);
             Console.WriteLine(strw);
 #endif
         }

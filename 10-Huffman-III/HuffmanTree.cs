@@ -38,7 +38,24 @@ namespace _08_Huffman_II
 
         public static HuffmanTree CreateFromEncoding(long[] encodedNodes)
         {
-            
+            Queue<HuffmanNode> nodes = new Queue<HuffmanNode>();
+
+            for (int i = 0; i < encodedNodes.Length; i++)
+            {
+                if ((encodedNodes[i] & 1) == 1)
+                {
+                    ulong value = (0xFF_00_00_00_00_00_00_00 & (ulong)encodedNodes[i]) >> 56;
+                    ulong weight = 0x00_FF_FF_FF_FF_FF_FF_FE & (ulong)encodedNodes[i] >> 1;
+                    nodes.Enqueue(new HuffmanNode(value, weight));
+                }
+                else
+                {
+
+                }
+
+            }
+
+            return new HuffmanTree(nodes.Dequeue());
         }
 
         public byte[] Encode()

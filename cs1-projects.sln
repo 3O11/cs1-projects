@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "09-Excel", "09-Excel\09-Exc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "10-Huffman-III", "10-Huffman-III\10-Huffman-III.csproj", "{5A750B0F-E747-4706-8316-1C0D8FFE0A8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "29-ExcelChecker", "29-ExcelChecker\29-ExcelChecker.csproj", "{5B011B52-D51B-4438-BB69-06B200472EEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "11-ExpressionEvaluator", "11-ExpressionEvaluator\11-ExpressionEvaluator.csproj", "{150AB891-1FC0-4B1C-93B7-5F388A8116D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,10 +77,10 @@ Global
 		{5A750B0F-E747-4706-8316-1C0D8FFE0A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A750B0F-E747-4706-8316-1C0D8FFE0A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A750B0F-E747-4706-8316-1C0D8FFE0A8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B011B52-D51B-4438-BB69-06B200472EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B011B52-D51B-4438-BB69-06B200472EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B011B52-D51B-4438-BB69-06B200472EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B011B52-D51B-4438-BB69-06B200472EEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{150AB891-1FC0-4B1C-93B7-5F388A8116D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{150AB891-1FC0-4B1C-93B7-5F388A8116D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{150AB891-1FC0-4B1C-93B7-5F388A8116D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{150AB891-1FC0-4B1C-93B7-5F388A8116D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

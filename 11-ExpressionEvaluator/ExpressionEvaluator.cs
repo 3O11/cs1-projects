@@ -9,6 +9,7 @@ namespace _11_ExpressionEvaluator
     {
         public static void Evaluate(TextReader input, TextWriter output)
         {
+            int result = 0;
             Stack<IExpression> expressions = new Stack<IExpression>();
 
             string token;
@@ -40,23 +41,11 @@ namespace _11_ExpressionEvaluator
                         expressions.Peek().SetNextOperand(tokenValue);
                         while (expressions.Peek().EmptyArgs == 0 && expressions.Count > 0)
                         {
-                            if(expressions.Peek().Evaluate(out int propagate))
+                            if (expressions.Peek().Evaluate(out result))
                             {
                                 expressions.Pop();
-
-                                if (expressions.Count == 0)
-                                {
-                                    if (input.Peek() == -1)
-                                    {
-                                        output.WriteLine(propagate);
-                                        return;
-                                    }
-
-                                    output.WriteLine("Format Error");
-                                    return;
-                                }
-
-                                expressions.Peek().SetNextOperand(propagate);
+                                if (expressions.Count == 0) break;
+                                expressions.Peek().SetNextOperand(result);
                             }
                             else
                             {
@@ -65,27 +54,29 @@ namespace _11_ExpressionEvaluator
                             }
                         }
                     }
-                    else
-                    {
-                        output.WriteLine(token);
-                        return;
-                    }
+                    else break;
                 }
-                else
-                {
-                    output.WriteLine("Format Error");
-                    return;
-                }
+                else break;
+            }
+
+            if (expressions.Count == 0 && input.Peek() == -1)
+            {
+                output.WriteLine(result);
+            }
+            else
+            {
+                output.WriteLine("Format Error");
             }
         }
 
         static string readNextToken(TextReader input)
         {
+            while (char.IsWhiteSpace((char)input.Peek())) input.Read();
             StringBuilder token = new StringBuilder();
             int next;
-            while((next = input.Read()) != -1 && !char.IsWhiteSpace((char)next))
+            while(input.Peek() != -1 && !char.IsWhiteSpace((char)input.Peek()))
             {
-                token.Append((char)next);
+                token.Append((char)input.Read());
             }
             return token.Length > 0 ? token.ToString() : null;
         }

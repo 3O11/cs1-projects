@@ -16,7 +16,7 @@ namespace _11_ExpressionEvaluator
 
             try
             {
-                result = _op1 - _op2;
+                result = checked(_op1 - _op2);
             }
             catch (OverflowException e)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace _11_ExpressionEvaluator
 {
@@ -6,7 +7,7 @@ namespace _11_ExpressionEvaluator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ExpressionEvaluator.Evaluate(Console.In, Console.Out);
         }
     }
 }
